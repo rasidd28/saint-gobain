@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Defect Analysis System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0e14;
+            color: #e6e8eb;
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 107, 53, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 53, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 107, 53, 0.08), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.05), transparent 50%);
+            pointer-events: none;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .header {
+            position: relative;
+            z-index: 10;
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+            background: rgba(10, 14, 20, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ff6b35, #ffd700);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0e14;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, #ff6b35, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: #8a8f98;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: #00ff88;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px #00ff88; }
+            50% { opacity: 0.5; box-shadow: 0 0 16px #00ff88; }
+        }
+
+        .chat-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 4px;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 53, 0.4);
+            border-radius: 4px;
+        }
+
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 53, 0.6);
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            animation: messageSlide 0.4s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, #ff6b35, #ffd700);
+            color: #0a0e14;
+        }
+
+        .message.user .message-avatar {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e6e8eb;
+        }
+
+        .message-avatar svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 70%;
+        }
+
+        .message-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: #8a8f98;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .message-text {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .message.assistant .message-text {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.25rem;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background: #ff6b35;
+            border-radius: 50%;
+            animation: loadingBounce 1.4s ease-in-out infinite;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes loadingBounce {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .input-container {
+            position: relative;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e6e8eb;
+            font-size: 1rem;
+            font-family: 'Roboto Mono', monospace;
+            padding: 0.75rem 1rem;
+        }
+
+        .input-field::placeholder {
+            color: #8a8f98;
+        }
+
+        .send-button {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ff6b35, #ffd700);
+            border: none;
+            border-radius: 8px;
+            color: #0a0e14;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.5);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .send-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .title {
+                font-size: 1.25rem;
+            }
+
+            .chat-container {
+                padding: 1rem;
+                height: calc(100vh - 100px);
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3l18 18M3 21L21 3M12 3v18M3 12h18" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="title">EDGE DEFECT</h1>
+                    <p class="subtitle">Quality Analysis System</p>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>OPERATIONAL</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Chat Container -->
+    <main class="chat-container">
+        <div class="messages" id="messages">
+            <!-- Messages will be added here -->
+        </div>
+
+        <!-- Input Form -->
+        <form class="input-container" id="chatForm">
+            <div class="input-wrapper">
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Ask about edge defects, detection methods, or prevention..."
+                    class="input-field"
+                />
+                <button type="submit" class="send-button" id="sendButton">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Configuration
+        const WEBHOOK_URL = 'http://localhost:5678/webhook/a4886a32-7362-4327-b089-aee8af24c841';
+        
+        // State
+        let messages = [
+            {
+                role: 'assistant',
+                content: 'Hello! I\'m your Edge Defects Analysis Assistant. Ask me anything about edge defects in manufacturing, quality control, detection methods, or preventive measures.'
+            }
+        ];
+        let isLoading = false;
+
+        // DOM Elements
+        const messagesContainer = document.getElementById('messages');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Initialize
+        renderMessages();
+
+        // Event Listeners
+        chatForm.addEventListener('submit', handleSubmit);
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            
+            const input = messageInput.value.trim();
+            if (!input || isLoading) return;
+
+            // Add user message
+            messages.push({ role: 'user', content: input });
+            messageInput.value = '';
+            renderMessages();
+            
+            // Set loading state
+            setLoading(true);
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: input,
+                        conversationHistory: messages
+                    })
+                });
+
+                const data = await response.json();
+                
+                messages.push({
+                    role: 'assistant',
+                    content: data.response || data.message || 'I received your message but couldn\'t generate a response.'
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                messages.push({
+                    role: 'assistant',
+                    content: 'Sorry, I encountered an error connecting to the server. Please try again.'
+                });
+            } finally {
+                setLoading(false);
+                renderMessages();
+            }
+        }
+
+        function setLoading(loading) {
+            isLoading = loading;
+            sendButton.disabled = loading;
+            messageInput.disabled = loading;
+            if (loading) {
+                addLoadingIndicator();
+            } else {
+                removeLoadingIndicator();
+            }
+        }
+
+        function renderMessages() {
+            messagesContainer.innerHTML = '';
+            messages.forEach((message, index) => {
+                const messageEl = createMessageElement(message, index);
+                messagesContainer.appendChild(messageEl);
+            });
+            scrollToBottom();
+        }
+
+        function createMessageElement(message, index) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${message.role}`;
+            messageDiv.style.animationDelay = `${index * 0.1}s`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            
+            if (message.role === 'assistant') {
+                avatar.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M9 9h.01M15 9h.01M9 15h6" />
+                    </svg>
+                `;
+            } else {
+                avatar.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                `;
+            }
+
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            const label = document.createElement('div');
+            label.className = 'message-label';
+            label.textContent = message.role === 'assistant' ? 'SYSTEM' : 'USER';
+            
+            const text = document.createElement('div');
+            text.className = 'message-text';
+            text.textContent = message.content;
+
+            content.appendChild(label);
+            content.appendChild(text);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+
+            return messageDiv;
+        }
+
+        function addLoadingIndicator() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message assistant loading';
+            loadingDiv.id = 'loadingIndicator';
+            
+            loadingDiv.innerHTML = `
+                <div class="message-avatar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M9 9h.01M15 9h.01M9 15h6" />
+                    </svg>
+                </div>
+                <div class="message-content">
+                    <div class="message-label">SYSTEM</div>
+                    <div class="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(loadingDiv);
+            scrollToBottom();
+        }
+
+        function removeLoadingIndicator() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            if (loadingIndicator) {
+                loadingIndicator.remove();
+            }
+        }
+
+        function scrollToBottom() {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
