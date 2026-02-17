@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceptance criteria  Analysis System - Saint-Gobain</title>
+    <title>Acceptance Criteria Analysis System - Saint-Gobain</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,9 +16,9 @@
 
         body {
             min-height: 100vh;
-            background: #f0f4f8;
+            background: linear-gradient(135deg, #e8f0ff 0%, #f5f8fc 50%, #e8f0ff 100%);
             color: #003a8f;
-            font-family: 'Roboto Mono', 'Courier New', monospace;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             position: relative;
             overflow: hidden;
         }
@@ -26,41 +26,45 @@
         .bg-grid {
             position: fixed;
             inset: 0;
-            background-image: linear-gradient(rgba(0, 85, 184, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 85, 184, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(rgba(0, 85, 184, 0.04) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(0, 85, 184, 0.04) 1.5px, transparent 1.5px);
+            background-size: 60px 60px;
             pointer-events: none;
-            animation: none;
+            animation: gridFloat 25s linear infinite;
+        }
+
+        @keyframes gridFloat {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(60px, 60px);
+            }
         }
 
         .bg-gradient {
             position: fixed;
             inset: 0;
-            background: transparent;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(0, 85, 184, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 85% 75%, rgba(0, 58, 143, 0.1) 0%, transparent 50%);
             pointer-events: none;
-        }
-
-        @keyframes gridPulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
         }
 
         .header {
             position: relative;
             z-index: 10;
-            border-bottom: 1px solid rgba(0, 85, 184, 0.2);
-            background: #ffffff;
-            backdrop-filter: none;
+            border-bottom: 1px solid rgba(0, 85, 184, 0.12);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0, 85, 184, 0.08);
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 1.5rem 2rem;
+            padding: 1.75rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -70,24 +74,25 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .logo-icon {
-            width: 100px;
-            height: 100px;
+            width: 85px;
+            height: 85px;
             background: transparent;
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: logoFloat 3s ease-in-out infinite;
+            animation: logoFloat 4s ease-in-out infinite;
         }
 
         .logo-icon img {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0, 85, 184, 0.15));
         }
 
         @keyframes logoFloat {
@@ -95,102 +100,203 @@
                 transform: translateY(0px);
             }
             50% {
-                transform: translateY(-5px);
+                transform: translateY(-6px);
             }
         }
 
         .title {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 700;
-            letter-spacing: 0.15em;
+            letter-spacing: -0.02em;
             color: #0055b8;
+            line-height: 1.2;
         }
 
         .subtitle {
-            font-size: 0.85rem;
-            color: #003a8f;
-            letter-spacing: 0.2em;
+            font-size: 0.875rem;
+            color: #6b84b8;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-top: 0.25rem;
+            margin-top: 0.4rem;
+            font-weight: 500;
         }
 
         .status-indicator {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            color: #ffffff;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            color: #0055b8;
             text-transform: uppercase;
+            background: rgba(0, 85, 184, 0.08);
+            padding: 0.85rem 1.75rem;
+            border-radius: 100px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 85, 184, 0.1);
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
+            width: 9px;
+            height: 9px;
+            background: #00c853;
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 2.5s ease-in-out infinite;
+            box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4);
         }
 
         @keyframes pulse {
             0%, 100% {
                 opacity: 1;
-                box-shadow: 0 0 8px #0055b8;
+                box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7);
             }
             50% {
-                opacity: 0.5;
-                box-shadow: 0 0 16px #0055b8;
+                opacity: 0.9;
+                box-shadow: 0 0 0 8px rgba(0, 200, 83, 0);
             }
         }
 
         .chat-container {
             position: relative;
             z-index: 1;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            height: calc(100vh - 120px);
+            height: calc(100vh - 145px);
             display: flex;
             flex-direction: column;
-            padding: 2rem;
-            background: transparent;
+            padding: 3rem;
         }
 
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem 0;
+            padding: 1.5rem 0;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .messages::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         .messages::-webkit-scrollbar-track {
-            background: #eaf1ff;
-            border-radius: 4px;
+            background: rgba(234, 241, 255, 0.4);
+            border-radius: 10px;
         }
 
         .messages::-webkit-scrollbar-thumb {
-            background: rgba(0, 85, 184, 0.5);
-            border-radius: 4px;
+            background: rgba(0, 85, 184, 0.3);
+            border-radius: 10px;
+            transition: background 0.3s ease;
         }
 
         .messages::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 85, 184, 0.6);
+            background: rgba(0, 85, 184, 0.5);
         }
 
         .message {
             display: flex;
-            gap: 1rem;
-            animation: messageSlide 0.4s ease-out;
+            gap: 1.25rem;
+            animation: messageSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             opacity: 0;
             animation-fill-mode: forwards;
         }
 
         @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 85, 184, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .message-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, #0055b8 0%, #003a8f 100%);
+            color: #fff;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #0055b8 0%, #0066cc 100%);
+            color: #ffffff;
+        }
+
+        .message-avatar svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 75%;
+        }
+
+        .message-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            color: #6b84b8;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .message-text {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 85, 184, 0.1);
+            padding: 1.5rem 1.75rem;
+            border-radius: 18px;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: #003a8f;
+            box-shadow: 0 4px 20px rgba(0, 85, 184, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .message-text:hover {
+            box-shadow: 0 6px 25px rgba(0, 85, 184, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .message.user .message-text {
+            background: linear-gradient(135deg, rgba(0, 85, 184, 0.12), rgba(0, 85, 184, 0.06));
+            border-color: rgba(0, 85, 184, 0.2);
+            font-weight: 500;
+        }
+
+        /* Button Styles */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.75rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -201,82 +307,100 @@
             }
         }
 
-        .message.user {
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .message.assistant .message-avatar {
-            background: linear-gradient(135deg, #0055b8, #003a8f);
-            color: #fff;
-        }
-
-        .message.user .message-avatar {
-            background: #0055b8;
-            border: 1px solid rgba(0, 85, 184, 0.4);
-            color: #ffffff;
-        }
-
-        .message-avatar svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .message-content {
-            flex: 1;
-            max-width: 70%;
-        }
-
-        .message-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            color: #003a8f;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-
-        .message-text {
-            background: transparent;
+        .defect-button {
+            background: linear-gradient(135deg, #0055b8 0%, #003a8f 100%);
             border: none;
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            line-height: 1.6;
-            font-size: 1.2rem;
-            color: #003a8f;
+            border-radius: 14px;
+            padding: 1.35rem 1.75rem;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 85, 184, 0.25);
+            position: relative;
+            overflow: hidden;
         }
 
-        .message.assistant .message-text {
-            background: transparent;
-            border-color: transparent;
-            color: #003a8f;
+        .defect-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .defect-button:hover::before {
+            left: 100%;
+        }
+
+        .defect-button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(0, 85, 184, 0.35);
+        }
+
+        .defect-button:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #0055b8;
+            color: #0055b8;
+            padding: 1rem 2rem;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 2px 12px rgba(0, 85, 184, 0.12);
+        }
+
+        .back-button:hover {
+            background: #0055b8;
+            color: #ffffff;
+            transform: translateX(-6px);
+            box-shadow: 0 4px 20px rgba(0, 85, 184, 0.25);
+        }
+
+        .back-button svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-3px);
         }
 
         .loading-dots {
             display: flex;
-            gap: 0.5rem;
-            padding: 1rem 1.25rem;
-            background: transparent;
-            border: none;
-            border-radius: 12px;
+            gap: 0.7rem;
+            padding: 1.5rem 1.75rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 85, 184, 0.1);
+            border-radius: 18px;
         }
 
         .loading-dots span {
-            width: 8px;
-            height: 8px;
-            background: #0055b8; /* Saint-Gobain blue */
+            width: 11px;
+            height: 11px;
+            background: #0055b8;
             border-radius: 50%;
             animation: loadingBounce 1.4s ease-in-out infinite;
         }
-
 
         .loading-dots span:nth-child(2) {
             animation-delay: 0.2s;
@@ -288,102 +412,128 @@
 
         @keyframes loadingBounce {
             0%, 80%, 100% {
-                transform: scale(0.8);
-                opacity: 0.5;
+                transform: scale(0.7);
+                opacity: 0.4;
             }
             40% {
-                transform: scale(1.2);
+                transform: scale(1.3);
                 opacity: 1;
             }
         }
 
-        .input-container {
-            position: relative;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .input-wrapper {
+        /* Progress Indicator */
+        .progress-bar {
             display: flex;
+            align-items: center;
             gap: 1rem;
-            background: #ffffff;
-            border: 1px solid rgba(0, 85, 184, 0.2);
-            border-radius: 8px;
-            padding: 0.5rem;
-            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            padding: 1.25rem 1.75rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 85, 184, 0.08);
         }
 
-        .input-wrapper:focus-within {
-            border-color: #0055b8;
-            box-shadow: 0 0 20px rgba(0, 85, 184, 0.3);
-        }
-
-        .input-field {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #003a8f;
-            font-size: 1.1rem;
-            font-family: 'Roboto Mono', monospace;
-            padding: 0.75rem 1rem;
-        }
-
-        .input-field::placeholder {
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
             color: #6b84b8;
+            font-weight: 500;
         }
 
-        .send-button {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #0055b8, #003a8f);
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            cursor: pointer;
+        .progress-step.completed {
+            color: #00c853;
+        }
+
+        .progress-step.active {
+            color: #0055b8;
+            font-weight: 700;
+        }
+
+        .progress-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: #e8f0ff;
+            color: #6b84b8;
             transition: all 0.3s ease;
         }
 
-        .send-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0, 85, 184, 0.5);
+        .progress-step.completed .progress-icon {
+            background: #00c853;
+            color: white;
         }
 
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .progress-step.active .progress-icon {
+            background: #0055b8;
+            color: white;
+            animation: pulseIcon 2s ease-in-out infinite;
         }
 
-        .send-button svg {
-            width: 24px;
-            height: 24px;
+        @keyframes pulseIcon {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 85, 184, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(0, 85, 184, 0);
+            }
+        }
+
+        .progress-arrow {
+            color: #d0d9e8;
+            font-weight: 400;
+            margin: 0 0.25rem;
         }
 
         @media (max-width: 768px) {
             .header-content {
-                padding: 1rem;
+                padding: 1.25rem 1.5rem;
                 gap: 1rem;
+                flex-direction: column;
+                text-align: center;
             }
 
             .logo-icon {
-                width: 80px;
-                height: 80px;
+                width: 65px;
+                height: 65px;
             }
 
             .title {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 0.75rem;
             }
 
             .chat-container {
-                padding: 1rem;
-                height: calc(100vh - 100px);
+                padding: 1.5rem;
+                height: calc(100vh - 160px);
             }
 
             .message-content {
-                max-width: 85%;
+                max-width: 90%;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .progress-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .progress-arrow {
+                display: none;
             }
         }
     </style>
@@ -398,7 +548,6 @@
         <div class="header-content">
             <div class="logo-section">
                 <div class="logo-icon">
-                    <!-- Replace the src path with your actual logo path -->
                     <img src="./logo.png" alt="Saint-Gobain Logo">
                 </div>
                 <div>
@@ -408,7 +557,7 @@
             </div>
             <div class="status-indicator">
                 <span class="status-dot"></span>
-                <span>OPERATIONAL</span>
+                <span>System Online</span>
             </div>
         </div>
     </header>
@@ -418,66 +567,291 @@
         <div class="messages" id="messages">
             <!-- Messages will be added here -->
         </div>
-
-        <!-- Input Form -->
-        <form class="input-container" id="chatForm">
-            <div class="input-wrapper">
-                <input
-                    type="text"
-                    id="messageInput"
-                    placeholder="Ask about edge defects, detection methods, or prevention..."
-                    class="input-field"
-                />
-                <button type="submit" class="send-button" id="sendButton">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                    </svg>
-                </button>
-            </div>
-        </form>
     </main>
 
     <script>
         // Configuration
         const WEBHOOK_URL = 'http://localhost:5678/webhook/545e799a-5200-4eab-ab5c-0786a35156e1';
 
-        // State
-        let messages = [
-            {
-                role: 'assistant',
-                content: 'Hello! I\'m your Acceptance  criteria  Analysis Assistant. Ask me anything about defects in manufacturing, quality control, detection methods, or preventive measures.'
+        // Defect Categories Structure
+        const defectCategories = {
+            'Float Glass': {
+                options: ['Bubble', 'Stone, Tin (Clear)', 'Stone, Tin (Colour)']
+            },
+            'Scratch Defect': {
+                options: ['Hairline', 'Medium', 'Heavy', 'Abrasion', 'Scratch Rework']
+            },
+            'Surface Defect': {
+                options: [
+                    'Foreign Body (Clear)',
+                    'Foreign Body (Colour)',
+                    'Dirty on Glass',
+                    'Finger prints',
+                    'Glass Particles',
+                    'Surface Chip'
+                ]
+            },
+            'Tooling Mark': {
+                options: ['Skeleton (Only Hot Marks)', 'Scratch', 'Bulge']
             }
+        };
+
+        // Vehicle Categories
+        const vehicleCategories = [
+            'Passenger Car',
+            'Three Wheeler',
+            'Commercial',
+            'Export OEM',
+            'Autover'
         ];
+
+        // Zones
+        const zones = ['Zone A', 'Zone B', 'Zone C', 'Zone D', 'Zone E'];
+
+        // Inspection Lines Configuration
+        const inspectionLines = {
+            'Float Glass': {
+                default: ['PPL', 'FI']
+            },
+            'Surface Defect': {
+                'Foreign Body (Clear)': ['Assembly', 'FI'],
+                'Foreign Body (Colour)': ['Assembly', 'FI'],
+                default: ['All']
+            },
+            'Tooling Mark': {
+                default: ['Furnace']
+            },
+            'Scratch Defect': {
+                default: ['All']
+            }
+        };
+
+        // State
+        let messages = [];
         let isLoading = false;
+        let selectionState = {
+            category: null,
+            defectType: null,
+            vehicleCategory: null,
+            zone: null,
+            inspectionLine: null
+        };
 
         // DOM Elements
         const messagesContainer = document.getElementById('messages');
-        const chatForm = document.getElementById('chatForm');
-        const messageInput = document.getElementById('messageInput');
-        const sendButton = document.getElementById('sendButton');
 
         // Initialize
-        renderMessages();
+        showWelcomeMessage();
 
-        // Event Listeners
-        chatForm.addEventListener('submit', handleSubmit);
+        function showWelcomeMessage() {
+            messages.push({
+                role: 'assistant',
+                content: 'Welcome to the Saint-Gobain Acceptance Criteria Analysis System! Select a defect category to begin your comprehensive quality analysis:',
+                showButtons: true,
+                buttonType: 'categories'
+            });
+            renderMessages();
+        }
 
-        async function handleSubmit(e) {
-            e.preventDefault();
+        async function handleCategoryClick(category) {
+            selectionState.category = category;
 
-            const input = messageInput.value.trim();
-            if (!input || isLoading) return;
-
-            // Add user message
             messages.push({
                 role: 'user',
-                content: input
+                content: `Selected: ${category}`
             });
 
-            messageInput.value = '';
+            messages.push({
+                role: 'assistant',
+                content: `Please select a specific defect type for ${category}:`,
+                showButtons: true,
+                buttonType: 'defectOptions',
+                category: category
+            });
+
+            renderMessages();
+        }
+
+        async function handleDefectOptionClick(defectType) {
+            selectionState.defectType = defectType;
+
+            messages.push({
+                role: 'user',
+                content: `Selected: ${selectionState.category} - ${defectType}`
+            });
+
+            messages.push({
+                role: 'assistant',
+                content: 'Please select the vehicle category:',
+                showButtons: true,
+                buttonType: 'vehicleCategories'
+            });
+
+            renderMessages();
+        }
+
+        async function handleVehicleCategoryClick(vehicleCategory) {
+            selectionState.vehicleCategory = vehicleCategory;
+
+            messages.push({
+                role: 'user',
+                content: `Selected Vehicle: ${vehicleCategory}`
+            });
+
+            messages.push({
+                role: 'assistant',
+                content: 'Please select the zone for analysis:',
+                showButtons: true,
+                buttonType: 'zones'
+            });
+
+            renderMessages();
+        }
+
+        async function handleZoneClick(zone) {
+            selectionState.zone = zone;
+
+            messages.push({
+                role: 'user',
+                content: `Selected: ${zone}`
+            });
+
+            // Show inspection line selection
+            messages.push({
+                role: 'assistant',
+                content: 'Please select the inspection line:',
+                showButtons: true,
+                buttonType: 'inspectionLines'
+            });
+
+            renderMessages();
+        }
+
+        async function handleInspectionLineClick(inspectionLine) {
+            selectionState.inspectionLine = inspectionLine;
+
+            messages.push({
+                role: 'user',
+                content: `Selected Inspection Line: ${inspectionLine}`
+            });
+
             renderMessages();
 
-            // Set loading state
+            // Prepare complete selection for backend
+            const completeSelection = {
+                defectCategory: selectionState.category,
+                defectType: selectionState.defectType,
+                vehicleCategory: selectionState.vehicleCategory,
+                zone: selectionState.zone,
+                inspectionLine: selectionState.inspectionLine,
+                fullQuery: `${selectionState.category} - ${selectionState.defectType} | Vehicle: ${selectionState.vehicleCategory} | ${selectionState.zone} | Inspection Line: ${selectionState.inspectionLine}`
+            };
+
+            // Send to backend
+            await sendToBackend(completeSelection);
+
+            // Show completion and reset option
+            messages.push({
+                role: 'assistant',
+                content: 'Analysis complete! Would you like to analyze another defect?',
+                showButtons: true,
+                buttonType: 'categories'
+            });
+
+            // Reset state
+            selectionState = {
+                category: null,
+                defectType: null,
+                vehicleCategory: null,
+                zone: null,
+                inspectionLine: null
+            };
+
+            renderMessages();
+        }
+
+        function getInspectionLinesForSelection() {
+            const category = selectionState.category;
+            const defectType = selectionState.defectType;
+
+            if (!category || !inspectionLines[category]) {
+                return ['PPL', 'FI']; // Default fallback
+            }
+
+            const categoryConfig = inspectionLines[category];
+
+            // Check if there's a specific config for this defect type
+            if (categoryConfig[defectType]) {
+                return categoryConfig[defectType];
+            }
+
+            // Otherwise use default for this category
+            return categoryConfig.default || ['PPL', 'FI'];
+        }
+
+        function getZonesForVehicleCategory() {
+            if (selectionState.vehicleCategory === 'Autover') {
+                return ['Zone A', 'Zone B', 'Zone C'];
+            }
+            return ['Zone A', 'Zone B', 'Zone D', 'Zone E'];
+        }
+
+        function handleBackClick(backTo) {
+            if (backTo === 'categories') {
+                selectionState = {
+                    category: null,
+                    defectType: null,
+                    vehicleCategory: null,
+                    zone: null,
+                    inspectionLine: null
+                };
+
+                messages.push({
+                    role: 'assistant',
+                    content: 'Please select a defect category:',
+                    showButtons: true,
+                    buttonType: 'categories'
+                });
+            } else if (backTo === 'defectOptions') {
+                selectionState.defectType = null;
+                selectionState.vehicleCategory = null;
+                selectionState.zone = null;
+                selectionState.inspectionLine = null;
+
+                messages.push({
+                    role: 'assistant',
+                    content: `Please select a specific defect type for ${selectionState.category}:`,
+                    showButtons: true,
+                    buttonType: 'defectOptions',
+                    category: selectionState.category
+                });
+            } else if (backTo === 'vehicleCategories') {
+                selectionState.vehicleCategory = null;
+                selectionState.zone = null;
+                selectionState.inspectionLine = null;
+
+                messages.push({
+                    role: 'assistant',
+                    content: 'Please select the vehicle category:',
+                    showButtons: true,
+                    buttonType: 'vehicleCategories'
+                });
+            } else if (backTo === 'zones') {
+                selectionState.zone = null;
+                selectionState.inspectionLine = null;
+
+                messages.push({
+                    role: 'assistant',
+                    content: 'Please select the zone for analysis:',
+                    showButtons: true,
+                    buttonType: 'zones'
+                });
+            }
+
+            renderMessages();
+        }
+
+        async function sendToBackend(data) {
             setLoading(true);
 
             try {
@@ -487,41 +861,34 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        message: input,
+                        message: data.fullQuery,
+                        defectCategory: data.defectCategory,
+                        defectType: data.defectType,
+                        vehicleCategory: data.vehicleCategory,
+                        zone: data.zone,
+                        inspectionLine: data.inspectionLine,
                         conversationHistory: messages
                     })
                 });
 
-                const data = await response.json();
+                const responseData = await response.json();
+                console.log('Webhook response:', responseData);
 
-                console.log('Webhook raw response:', data); // <-- TEMP DEBUG
+                let assistantReply = 'Analysis received. Processing your request...';
 
-                let assistantReply = 'I received your message but couldn\'t generate a response.';
-
-                // Case 1: Direct array [{ output: "..." }]
-                if (Array.isArray(data) && data[0]?.output) {
-                    assistantReply = data[0].output;
-                }
-
-                // Case 2: Respond to Webhook wraps in body
-                else if (data.body && Array.isArray(data.body) && data.body[0]?.output) {
-                    assistantReply = data.body[0].output;
-                }
-
-                // Case 3: n8n item format [{ json: { output } }]
-                else if (Array.isArray(data) && data[0]?.json?.output) {
-                    assistantReply = data[0].json.output;
-                }
-
-                // Case 4: flat object
-                else if (data.output) {
-                    assistantReply = data.output;
-                }
-                else if (data.response) {
-                    assistantReply = data.response;
-                }
-                else if (data.message) {
-                    assistantReply = data.message;
+                // Parse response
+                if (Array.isArray(responseData) && responseData[0]?.output) {
+                    assistantReply = responseData[0].output;
+                } else if (responseData.body && Array.isArray(responseData.body) && responseData.body[0]?.output) {
+                    assistantReply = responseData.body[0].output;
+                } else if (Array.isArray(responseData) && responseData[0]?.json?.output) {
+                    assistantReply = responseData[0].json.output;
+                } else if (responseData.output) {
+                    assistantReply = responseData.output;
+                } else if (responseData.response) {
+                    assistantReply = responseData.response;
+                } else if (responseData.message) {
+                    assistantReply = responseData.message;
                 }
 
                 messages.push({
@@ -542,8 +909,6 @@
 
         function setLoading(loading) {
             isLoading = loading;
-            sendButton.disabled = loading;
-            messageInput.disabled = loading;
 
             if (loading) {
                 addLoadingIndicator();
@@ -564,20 +929,19 @@
         function createMessageElement(message, index) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${message.role}`;
-            messageDiv.style.animationDelay = `${index * 0.1}s`;
+            messageDiv.style.animationDelay = `${index * 0.08}s`;
 
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
 
             if (message.role === 'assistant') {
-                avatar.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M9 9h.01M15 9h.01M9 15h6" />
+                avatar.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>`;
             } else {
-                avatar.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
+                avatar.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
                 </svg>`;
             }
 
@@ -586,15 +950,131 @@
 
             const label = document.createElement('div');
             label.className = 'message-label';
-            label.textContent = message.role === 'assistant' ? 'SYSTEM' : 'USER';
+            label.textContent = message.role === 'assistant' ? 'System' : 'You';
 
             const text = document.createElement('div');
             text.className = 'message-text';
             text.innerHTML = message.content.replace(/\n/g, '<br>');
 
-
             content.appendChild(label);
             content.appendChild(text);
+
+            // Add progress indicator
+            if (message.showButtons && message.role === 'assistant') {
+                const progressBar = createProgressBar();
+                if (progressBar) {
+                    content.appendChild(progressBar);
+                }
+            }
+
+            // Add buttons if needed
+            if (message.showButtons) {
+                const buttonsContainer = document.createElement('div');
+
+                if (message.buttonType === 'categories') {
+                    buttonsContainer.className = 'button-grid';
+                    Object.keys(defectCategories).forEach(category => {
+                        const button = document.createElement('button');
+                        button.className = 'defect-button';
+                        button.textContent = category;
+                        button.onclick = () => handleCategoryClick(category);
+                        buttonsContainer.appendChild(button);
+                    });
+                } else if (message.buttonType === 'defectOptions') {
+                    // Add back button
+                    const backBtn = document.createElement('button');
+                    backBtn.className = 'back-button';
+                    backBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Categories
+                    `;
+                    backBtn.onclick = () => handleBackClick('categories');
+                    content.appendChild(backBtn);
+
+                    // Add option buttons
+                    buttonsContainer.className = 'button-grid';
+                    const options = defectCategories[message.category].options;
+                    options.forEach(option => {
+                        const button = document.createElement('button');
+                        button.className = 'defect-button';
+                        button.textContent = option;
+                        button.onclick = () => handleDefectOptionClick(option);
+                        buttonsContainer.appendChild(button);
+                    });
+                } else if (message.buttonType === 'vehicleCategories') {
+                    // Add back button
+                    const backBtn = document.createElement('button');
+                    backBtn.className = 'back-button';
+                    backBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Defect Types
+                    `;
+                    backBtn.onclick = () => handleBackClick('defectOptions');
+                    content.appendChild(backBtn);
+
+                    // Add vehicle category buttons
+                    buttonsContainer.className = 'button-grid';
+                    vehicleCategories.forEach(vehicle => {
+                        const button = document.createElement('button');
+                        button.className = 'defect-button';
+                        button.textContent = vehicle;
+                        button.onclick = () => handleVehicleCategoryClick(vehicle);
+                        buttonsContainer.appendChild(button);
+                    });
+                } else if (message.buttonType === 'zones') {
+                    // Add back button
+                    const backBtn = document.createElement('button');
+                    backBtn.className = 'back-button';
+                    backBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Vehicle Categories
+                    `;
+                    backBtn.onclick = () => handleBackClick('vehicleCategories');
+                    content.appendChild(backBtn);
+
+                    // Add zone buttons based on vehicle category
+                    buttonsContainer.className = 'button-grid';
+                    const availableZones = getZonesForVehicleCategory();
+                    availableZones.forEach(zone => {
+                        const button = document.createElement('button');
+                        button.className = 'defect-button';
+                        button.textContent = zone;
+                        button.onclick = () => handleZoneClick(zone);
+                        buttonsContainer.appendChild(button);
+                    });
+                } else if (message.buttonType === 'inspectionLines') {
+                    // Add back button
+                    const backBtn = document.createElement('button');
+                    backBtn.className = 'back-button';
+                    backBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Zones
+                    `;
+                    backBtn.onclick = () => handleBackClick('zones');
+                    content.appendChild(backBtn);
+
+                    // Add inspection line buttons
+                    buttonsContainer.className = 'button-grid';
+                    const lines = getInspectionLinesForSelection();
+                    lines.forEach(line => {
+                        const button = document.createElement('button');
+                        button.className = 'defect-button';
+                        button.textContent = line;
+                        button.onclick = () => handleInspectionLineClick(line);
+                        buttonsContainer.appendChild(button);
+                    });
+                }
+
+                content.appendChild(buttonsContainer);
+            }
 
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(content);
@@ -602,18 +1082,71 @@
             return messageDiv;
         }
 
+        function createProgressBar() {
+            const steps = [
+                { name: 'Category', key: 'category' },
+                { name: 'Defect', key: 'defectType' },
+                { name: 'Vehicle', key: 'vehicleCategory' },
+                { name: 'Zone', key: 'zone' },
+                { name: 'Inspection', key: 'inspectionLine' }
+            ];
+
+            let currentStep = 0;
+            if (selectionState.category) currentStep = 1;
+            if (selectionState.defectType) currentStep = 2;
+            if (selectionState.vehicleCategory) currentStep = 3;
+            if (selectionState.zone) currentStep = 4;
+            if (selectionState.inspectionLine) currentStep = 5;
+
+            if (currentStep === 0) return null;
+
+            const progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+
+            steps.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'progress-step';
+                
+                if (index < currentStep) {
+                    stepDiv.classList.add('completed');
+                } else if (index === currentStep) {
+                    stepDiv.classList.add('active');
+                }
+
+                const icon = document.createElement('div');
+                icon.className = 'progress-icon';
+                icon.textContent = index < currentStep ? '✓' : index + 1;
+
+                stepDiv.appendChild(icon);
+                
+                const label = document.createElement('span');
+                label.textContent = step.name;
+                stepDiv.appendChild(label);
+
+                progressBar.appendChild(stepDiv);
+
+                if (index < steps.length - 1) {
+                    const arrow = document.createElement('span');
+                    arrow.className = 'progress-arrow';
+                    arrow.textContent = '→';
+                    progressBar.appendChild(arrow);
+                }
+            });
+
+            return progressBar;
+        }
+
         function addLoadingIndicator() {
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'message assistant loading';
             loadingDiv.id = 'loadingIndicator';
             loadingDiv.innerHTML = `<div class="message-avatar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M9 9h.01M15 9h.01M9 15h6" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
             </div>
             <div class="message-content">
-                <div class="message-label">SYSTEM</div>
+                <div class="message-label">System</div>
                 <div class="loading-dots">
                     <span></span>
                     <span></span>
